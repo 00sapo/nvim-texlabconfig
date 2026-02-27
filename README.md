@@ -230,3 +230,30 @@ local args = {
     '%p',
 }
 ```
+
+## [Okular](https://okular.kde.org)
+
+```lua
+executable = "okular",
+args = {
+    "--unique",
+ 	"file:%p#src:%l%f",
+    "--editor-cmd",
+    "nvim-texlabconfig -file %%f -line %%l -server " .. vim.v.servername
+}				
+```
+
+Example with flatpak:
+```lua
+executable = "flatpak",
+args = {
+    "--talk-name=org.freedesktop.Flatpak", -- needed for spawining nvim-texlabconfig on host
+    "--filesystem=/tmp/texlab", -- or any other directory where the compilation outputs are
+    "run",
+    "org.kde.okular",
+    "--unique",
+    "file:%p#src:%l%f",
+    "--editor-cmd",
+    "flatpak-spawn --host nvim-texlabconfig -file %%f -line %%l -server " .. vim.v.servername -- note the `flatpak-spawn --host`
+}
+```
